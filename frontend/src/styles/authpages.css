@@ -1,0 +1,101 @@
+/* 🔷 Page Wrapper */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 🔷 Backgrounds */
+.login-bg {
+  background: url("../assets/loginpic.jpeg") no-repeat center center / cover;
+}
+
+.signup-bg {
+  background: url("../assets/signuppic.jpeg") no-repeat center center / cover;
+}
+
+/* 🔶 Card */
+.auth-card {
+  background-color: rgba(10, 10, 10, 0.85); /* Deeper dark */
+  backdrop-filter: blur(16px);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  width: 100%;
+  max-width: 450px;
+  color: #ffffff;
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
+  animation: fadeInUp 0.8s ease;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* 🔹 Typography */
+.auth-card h2, .auth-card h3 {
+  color: #ffffff;
+}
+
+.auth-card p {
+  color: #cccccc;
+  font-size: 0.95rem;
+}
+
+/* 🔹 Inputs */
+.auth-card input {
+  background-color: #1e1e1e;
+  border: 1px solid #444;
+  color: #fff;
+  border-radius: 10px;
+  padding: 0.6rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.auth-card input:focus {
+  border-color: #00c6ff;
+  box-shadow: 0 0 0 2px rgba(0, 198, 255, 0.2);
+  outline: none;
+}
+
+.auth-card input::placeholder {
+  color: #aaa;
+}
+
+/* 🔹 Button */
+.auth-card .btn-primary {
+  background: linear-gradient(to right, #00c6ff, #0079a1);
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  transition: background 0.4s ease;
+  color: #fff;
+}
+
+.auth-card .btn-primary:hover {
+  background: linear-gradient(to right, #0079a1, #005f80);
+}
+
+/* 🔹 Links */
+.auth-card a {
+  color: #ffca28;
+  text-decoration: underline;
+  transition: color 0.3s;
+}
+
+.auth-card a:hover {
+  color: #ffd54f;
+}
+
+/* 🔹 Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
