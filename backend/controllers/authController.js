@@ -21,7 +21,7 @@ export const signup = async (req, res) => {
     const defaultItems = [
       { name: "Milk", quantity: 2, price: 45 },
       { name: "Bread", quantity: 3, price: 25 },
-      { name: "Eggs", quantity: 12, price: 120 },
+      { name: "Eggs", quantity: 12, price: 12 },
       { name: "Salt", quantity: 2, price: 70 },
       { name: "Maggie", quantity: 4, price: 55 },
       { name: "Cornflakes", quantity: 1, price: 90 },
