@@ -92,14 +92,6 @@ Open [http://localhost:5173](http://localhost:5173) to view it in your browser.
 
 ---
 
-### 📸 Screenshots
-
-| Login Page                               | Signup Page                                | Grocery List                                  |
-| ---------------------------------------- | ------------------------------------------ | --------------------------------------------- |
-| ![login](./src/assets/screens/login.png) | ![signup](./src/assets/screens/signup.png) | ![list](./src/assets/screens/grocerylist.png) |
-
----
-
 ### 📁 Assets Used
 
 Add your grocery item images (like `milk.jpeg`, `bread.jpeg`, `onion.jpeg`) inside the `src/assets/` folder and map them via item name.
