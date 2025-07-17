@@ -1,116 +1,166 @@
-## 🛒 Grocery App — React Frontend
+# 🛒 Grocery Shop
 
-This is a fully functional **Grocery Shopping Web App (Frontend)** built using **React + Vite**, featuring:
-
-* 🔐 Login & Signup authentication pages
-* 🛍️ Grocery list with images and prices
-* 💡 Beautiful animated UI with framer-motion & Bootstrap
-* 🌙 Dark mode support
-* ✅ Reusable components & route protection
+A complete and visually appealing **MERN Stack Grocery Shop App** with login/signup, cart functionality, and grocery listing. It uses modern design, Bootstrap styling, reusable components, and local grocery image support.
 
 ---
 
-### 📁 Project Structure
+## 📁 Project Structure
 
 ```
-grocery-app/
-├── public/
-│   └── index.html
-├── src/
-│   ├── assets/             # Local images (milk.jpeg, bread.jpeg, etc.)
-│   ├── components/         # Reusable components (LoginForm, SignupForm, Navbar, etc.)
-│   ├── pages/              # Main pages (Login.jsx, Signup.jsx, GroceryList.jsx)
-│   ├── context/            # Auth and Cart context
-│   ├── styles/             # Global & Auth CSS (authpages.css)
-│   ├── App.jsx             # App routing
-│   ├── main.jsx            # Entry point
-│   └── ...
-├── package.json
-└── README.md
-```
+
+grocery-shop/
+│
+├── client/                         # React Frontend
+│   ├── public/
+│   └── src/
+│       ├── assets/                # Grocery images (milk.jpg, bread.jpg, etc.)
+│       ├── components/            # Reusable components
+│       │   ├── CartItem.jsx
+│       │   ├── GroceryCard.jsx
+│       │   ├── GroceryList.jsx
+│       │   ├── LoginForm.jsx
+│       │   ├── Navbar.jsx
+│       │   └── SignupForm.jsx
+│       ├── context/               # Cart Context API
+│       │   └── CartContext.jsx
+│       ├── pages/                 # Page-level components
+│       │   ├── Home.jsx
+│       │   ├── Login.jsx
+│       │   └── Signup.jsx
+        |   |___Cart.jsx
+|       |   |___Orderlist.jsx
+│       ├── styles/                # CSS files
+│       │   └── authpages.css
+│       ├── App.jsx                # Main app component
+│       └── main.jsx               # React entry point
+│
+├── server/                        # Node + Express Backend
+│   ├── config/
+│   │   └── db.js                  # MongoDB connection setup
+│   ├── controllers/
+│   │   ├── authController.js      # Login & signup logic
+│   │   ├── cartController.js      # Cart add/remove
+│   │   └── groceryController.js   # Grocery CRUD
+│   ├── middleware/
+│   │   └── authMiddleware.js      # JWT verification
+│   ├── models/
+│   │   ├── CartItem.js
+│   │   ├── GroceryItem.js
+│   │   └── User.js
+│   ├── routes/
+│   │   ├── authRoutes.js
+│   │   ├── cartRoutes.js
+│   │   └── groceryRoutes.js
+│   └── index.js                  # Entry point for backend server
+│
+├── .env                          # Environment variables (manually created)
+├── package.json                  # Backend dependencies
+├── client/package.json           # Frontend dependencies
+└── README.md                     # Project documentation
+
+````
 
 ---
 
-### ⚙️ Tech Stack
+## 🚀 Features
 
-* **React** (with Vite)
-* **Bootstrap** (UI components)
-* **Framer Motion** (animations)
-* **React Router** (navigation)
-* **React Context API** (cart & auth state)
-* **Local assets/images** (for grocery items)
-
----
-
-### 🚀 Features
-
-* 🔐 **Login & Signup Pages**
-
-  * Grocery-styled header cards
-  * Auth form animations with input validations
-
-* 🛍️ **Grocery List Page**
-
-  * Displays items with image, name, price
-  * Add/remove from cart
-  * Persistent across login
-
-* 🎨 **UI Design Highlights**
-
-  * Auth pages have animated glowing backgrounds, rounded cards, CTA headers
-  * Grocery cards have subtle hover effects, shadows, and dynamic layout
-
-* 📦 **Cart System**
-
-  * Add/remove items
-  * Cart state saved using Context API
+- 🔐 User Signup/Login with JWT
+- 🛒 Add to Cart / Remove from Cart
+- 🧾 View Grocery List (with image fallback to `/assets`)
+- 💅 Styled with Bootstrap 5 + Custom CSS
+- ⚡ Fast and optimized with Vite + React
+- 🌗 Auth pages include animated backgrounds and framer motion
 
 ---
 
-### 🧑‍💻 Setup Instructions
+## 🛠️ Tech Stack
 
-#### 1. Clone the repository
+**Frontend:**  
+- React + Vite  
+- Bootstrap 5  
+- React Router  
+- Axios  
+- Framer Motion  
+- Context API
+
+**Backend:**  
+- Node.js  
+- Express.js  
+- MongoDB + Mongoose  
+- JWT Authentication  
+- Dotenv
+
+---
+
+## ⚙️ Local Setup Instructions
+
+### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/grocery-app.git
-cd grocery-app
-```
+git clone https://github.com/arpan-lab/grocery-shop.git
+cd grocery-shop
+````
 
-#### 2. Install dependencies
+---
+
+### 2. Backend Setup (`server/`)
 
 ```bash
+cd server
 npm install
 ```
 
-#### 3. Start the development server
+Create a `.env` file:
+
+```
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+```
+
+Start the backend:
 
 ```bash
+npm start
+```
+
+---
+
+### 3. Frontend Setup (`client/`)
+
+```bash
+cd client
+npm install
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173) to view it in your browser.
+---
+
+## 🔐 Authentication
+
+* JWT is used for securing API requests
+* Protected routes redirect unauthenticated users to login
 
 ---
 
-### 📁 Assets Used
+## 🛍️ Grocery Items
 
-Add your grocery item images (like `milk.jpeg`, `bread.jpeg`, `onion.jpeg`) inside the `src/assets/` folder and map them via item name.
-
----
-
-### 📌 Notes
-
-* No backend or deployment included in this version.
-* Ensure consistent file names for grocery images.
-* Cart and auth logic use Context API with localStorage fallback.
+* Grocery images like `milk.jpg`, `bread.jpg`, etc., are stored in `/assets`
+* If no custom image is provided, fallback uses static images
 
 ---
 
-### 📬 Contact
+## ✨ UI Highlights
 
-For help or suggestions, contact:
-**Arpan Chakrabarty**
-📧 [chakrabartyarpan8@gmail.com](mailto:chakrabartyarpan8@gmail.com)
+* Full-page animated background for login/signup
+* Reusable card-based layout for groceries
+* Modern typography and layout using Bootstrap grid system
 
 ---
 
+## 📧 Contact
+
+Built by **Arpan Chakrabarty**
+Email: [chakrabartyarpan8@gmail.com](mailto:chakrabartyarpan8@gmail.com)
+
+---
