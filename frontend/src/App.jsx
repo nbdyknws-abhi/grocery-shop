@@ -1,13 +1,18 @@
 import { Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
+import CombinedSignup from "./pages/CombinedSignUp"; // ✅ changed
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
-import OrderForm from "./pages/OrderForm"; // ✅ Import your checkout form
+import OrderForm from "./pages/OrderForm";
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./utils/ProtectedRoute";
 
-// ✅ Toastify
+// Admin pages
+import AdminDashboard from "./pages/AdminDashboard";
+
+// Combined login page
+import CombinedLogin from "./pages/CombinedLogin";
+
+// Toast
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -15,14 +20,11 @@ function App() {
   return (
     <>
       <Navbar />
-
-      {/* ✅ Toast notification container */}
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
 
-      {/* ✅ Bootstrap layout wrapper */}
       <div className="container mt-4">
         <Routes>
-          {/* ✅ Protected homepage */}
+          {/* User Protected Routes */}
           <Route
             path="/"
             element={
@@ -31,12 +33,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
-          {/* ✅ Auth pages */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-
-          {/* ✅ Protected cart page */}
           <Route
             path="/cart"
             element={
@@ -45,8 +41,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
-          {/* ✅ New: Protected checkout page */}
           <Route
             path="/checkout"
             element={
@@ -56,7 +50,14 @@ function App() {
             }
           />
 
-          {/* ✅ 404 fallback */}
+          {/* Combined Auth Routes */}
+          <Route path="/login" element={<CombinedLogin />} />
+          <Route path="/signup" element={<CombinedSignup />} /> {/* ✅ updated */}
+
+          {/* Admin Route */}
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+
+          {/* 404 fallback */}
           <Route
             path="*"
             element={
