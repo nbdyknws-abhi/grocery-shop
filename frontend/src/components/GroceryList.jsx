@@ -51,8 +51,6 @@ const GroceryList = () => {
     quantity: 1,
     price: 0,
   });
-  const [isEditing, setIsEditing] = useState(false);
-  const [editId, setEditId] = useState(null);
 
   const { addToCart } = useCart();
   const baseURL = import.meta.env.VITE_API_URL;
@@ -79,39 +77,14 @@ const GroceryList = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (isEditing) {
-        await axios.put(`${baseURL}/groceries/${editId}`, formData, {
-          headers: { Authorization: `Bearer ${getToken()}` },
-        });
-      } else {
-        await axios.post(`${baseURL}/groceries`, formData, {
-          headers: { Authorization: `Bearer ${getToken()}` },
-        });
-      }
+      await axios.post(`${baseURL}/groceries`, formData, {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      });
       setFormData({ name: "", quantity: 1, price: 0 });
-      setIsEditing(false);
-      setEditId(null);
       fetchItems();
     } catch (error) {
-      console.error("Error submitting form:", error.message);
+      console.error("Error adding item:", error.message);
     }
-  };
-
-  const handleEdit = (item) => {
-    setFormData({
-      name: item.name,
-      quantity: item.quantity,
-      price: item.price,
-    });
-    setIsEditing(true);
-    setEditId(item._id);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const handleCancel = () => {
-    setFormData({ name: "", quantity: 1, price: 0 });
-    setIsEditing(false);
-    setEditId(null);
   };
 
   return (
@@ -123,15 +96,13 @@ const GroceryList = () => {
         </video>
         <div className="overlay">
           <h1 className="display-4 fw-bold text-white">Fresh Groceries Daily</h1>
-          <p className="lead text-white">Add, edit, and manage your grocery items easily.</p>
+          <p className="lead text-white">Add and manage your grocery items easily.</p>
         </div>
       </div>
 
       {/* 🧾 Form */}
       <div className="container py-5">
-        <h3 className="text-center mb-4 fw-semibold">
-          {isEditing ? "Edit Item" : "Add New Item"}
-        </h3>
+        <h3 className="text-center mb-4 fw-semibold">Add New Item</h3>
         <form
           className="row g-3 mb-5 bg-white p-4 rounded shadow-lg"
           onSubmit={handleSubmit}
@@ -168,19 +139,10 @@ const GroceryList = () => {
               required
             />
           </div>
-          <div className="col-md-2 d-flex gap-2">
+          <div className="col-md-2">
             <button type="submit" className="btn btn-primary w-100">
-              {isEditing ? "Update" : "Add"}
+              Add
             </button>
-            {isEditing && (
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={handleCancel}
-              >
-                Cancel
-              </button>
-            )}
           </div>
         </form>
 
@@ -206,20 +168,12 @@ const GroceryList = () => {
                     <p className="card-text text-success fw-bold mb-2">
                       ₹{item.price || 0}
                     </p>
-                    <div className="mt-auto d-flex justify-content-between gap-2">
-                      <button
-                        className="btn btn-outline-success w-100"
-                        onClick={() => addToCart(item)}
-                      >
-                        Add to Cart 🛒
-                      </button>
-                      <button
-                        className="btn btn-outline-primary w-100"
-                        onClick={() => handleEdit(item)}
-                      >
-                        Edit ✏️
-                      </button>
-                    </div>
+                    <button
+                      className="btn btn-outline-success mt-auto w-100"
+                      onClick={() => addToCart(item)}
+                    >
+                      Add to Cart 🛒
+                    </button>
                   </div>
                 </div>
               </div>
