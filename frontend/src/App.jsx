@@ -3,6 +3,7 @@ import CombinedSignup from "./pages/CombinedSignUp"; // ✅ changed
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import OrderForm from "./pages/OrderForm";
+import Orders from "./pages/Orders";
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./utils/ProtectedRoute";
 
@@ -49,14 +50,20 @@ function App() {
               </ProtectedRoute>
             }
           />
-
+          <Route
+            path="/orders"
+            element={
+              <ProtectedRoute>
+                <Orders />
+              </ProtectedRoute>
+            }
+          />
           {/* Combined Auth Routes */}
           <Route path="/login" element={<CombinedLogin />} />
-          <Route path="/signup" element={<CombinedSignup />} /> {/* ✅ updated */}
-
+          <Route path="/signup" element={<CombinedSignup />} />{" "}
+          {/* ✅ updated */}
           {/* Admin Route */}
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
-
           {/* 404 fallback */}
           <Route
             path="*"

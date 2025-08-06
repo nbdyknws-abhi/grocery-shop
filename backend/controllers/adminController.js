@@ -2,6 +2,7 @@
 
 import Admin from "../models/Admin.js";
 import User from "../models/User.js";
+import Order from "../models/Order.js"; // <-- Add this import
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
@@ -75,6 +76,16 @@ export const updateUser = async (req, res) => {
     });
     if (!updated) return res.status(404).json({ message: "User not found" });
     res.status(200).json(updated);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+/// Get all orders with user info
+export const getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find().populate("userId", "name email");
+    res.status(200).json(orders);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

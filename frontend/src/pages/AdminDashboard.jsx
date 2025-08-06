@@ -1,10 +1,10 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/dashboard.css";
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
+  const [orders, setOrders] = useState([]); // <-- Add orders state
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [editUserId, setEditUserId] = useState(null);
@@ -26,6 +26,21 @@ const AdminDashboard = () => {
       setError("Failed to fetch users. Please try again.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Fetch orders from backend
+  const fetchOrders = async () => {
+    try {
+      const token = localStorage.getItem("adminToken");
+      const res = await axios.get("http://localhost:5000/api/admin/orders", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setOrders(res.data);
+    } catch (err) {
+      console.error("Order fetch error:", err);
     }
   };
 
@@ -78,7 +93,12 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     fetchUsers();
+    fetchOrders(); // <-- Fetch orders on mount
   }, []);
+
+  // Helper to get orders for a user
+  const getUserOrders = (userId) =>
+    orders.filter((order) => order.userId && order.userId._id === userId);
 
   return (
     <div className="container mt-5">
@@ -97,6 +117,7 @@ const AdminDashboard = () => {
               <th>Name</th>
               <th>Email</th>
               <th>Registered On</th>
+              <th>Orders</th> {/* Add Orders column */}
               <th>Actions</th>
             </tr>
           </thead>
@@ -131,6 +152,28 @@ const AdminDashboard = () => {
                   {user.createdAt
                     ? new Date(user.createdAt).toLocaleString()
                     : "N/A"}
+                </td>
+                <td>
+                  {/* Show user's orders */}
+                  {getUserOrders(user._id).length === 0 ? (
+                    <span className="text-muted">No orders</span>
+                  ) : (
+                    <ul style={{ paddingLeft: "1rem", marginBottom: 0 }}>
+                      {getUserOrders(user._id).map((order) => (
+                        <li key={order._id}>
+                          {order.orderItems.map((item) => (
+                            <span key={item.name}>
+                              {item.name} x{item.quantity} (₹{item.price}){" "}
+                            </span>
+                          ))}
+                          <br />
+                          <small>
+                            Status: {order.orderStatus}, Payment: {order.paymentStatus}
+                          </small>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </td>
                 <td>
                   {editUserId === user._id ? (

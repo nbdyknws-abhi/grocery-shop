@@ -3,14 +3,18 @@ import { useNavigate } from "react-router-dom";
 
 // ✅ Cart Page
 const Cart = () => {
-  const { cartItems, removeFromCart, clearCart } = useCart();
+  const {
+    cartItems,
+    removeFromCart,
+    clearCart,
+    updateQuantity,
+    getTotalPrice,
+    getTotalItems,
+  } = useCart();
   const navigate = useNavigate();
 
-  const totalItems = cartItems.reduce((acc, item) => acc + Number(item.quantity || 1), 0);
-  const totalPrice = cartItems.reduce(
-    (acc, item) => acc + (item.price || 0) * (item.quantity || 1),
-    0
-  );
+  const totalItems = getTotalItems();
+  const totalPrice = getTotalPrice();
 
   return (
     <div className="container py-5">
@@ -32,7 +36,26 @@ const Cart = () => {
                   />
                   <div className="card-body d-flex flex-column">
                     <h5 className="card-title text-capitalize">{item.name}</h5>
-                    <p className="card-text mb-1">Quantity: {item.quantity}</p>
+                    <div className="d-flex align-items-center mb-2">
+                      <span className="me-2">Quantity:</span>
+                      <button
+                        className="btn btn-sm btn-outline-secondary me-1"
+                        onClick={() =>
+                          updateQuantity(item._id, item.quantity - 1)
+                        }
+                      >
+                        -
+                      </button>
+                      <span className="mx-2 fw-bold">{item.quantity}</span>
+                      <button
+                        className="btn btn-sm btn-outline-secondary ms-1"
+                        onClick={() =>
+                          updateQuantity(item._id, item.quantity + 1)
+                        }
+                      >
+                        +
+                      </button>
+                    </div>
                     <p className="card-text text-success fw-bold">
                       ₹{item.price || 0} x {item.quantity} = ₹
                       {(item.price || 0) * (item.quantity || 1)}
@@ -55,10 +78,16 @@ const Cart = () => {
               <h5>💰 Total Price: ₹{totalPrice}</h5>
             </div>
             <div className="text-end">
-              <button className="btn btn-outline-danger me-3" onClick={clearCart}>
+              <button
+                className="btn btn-outline-danger me-3"
+                onClick={clearCart}
+              >
                 Clear Cart 🧺
               </button>
-              <button className="btn btn-success" onClick={() => navigate("/checkout")}>
+              <button
+                className="btn btn-success"
+                onClick={() => navigate("/checkout")}
+              >
                 Proceed to Checkout 💳
               </button>
             </div>

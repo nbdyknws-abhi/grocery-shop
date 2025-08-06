@@ -12,16 +12,27 @@ const Navbar = () => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4">
-      <Link className="navbar-brand" to="/">🛒 GroceryApp</Link>
+      <Link className="navbar-brand" to="/">
+        🛒 GroceryApp
+      </Link>
       <div className="collapse navbar-collapse">
         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
           {isLoggedIn && (
             <>
               <li className="nav-item">
-                <Link className="nav-link" to="/">Home</Link>
+                <Link className="nav-link" to="/">
+                  Home
+                </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/cart">Cart</Link>
+                <Link className="nav-link" to="/cart">
+                  Cart
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/orders">
+                  My Orders
+                </Link>
               </li>
             </>
           )}
@@ -36,10 +47,14 @@ const Navbar = () => {
           ) : (
             <>
               <li className="nav-item me-2">
-                <Link className="btn btn-outline-light" to="/login">Login</Link>
+                <Link className="btn btn-outline-light" to="/login">
+                  Login
+                </Link>
               </li>
               <li className="nav-item">
-                <Link className="btn btn-outline-success" to="/signup">Signup</Link>
+                <Link className="btn btn-outline-success" to="/signup">
+                  Signup
+                </Link>
               </li>
             </>
           )}
