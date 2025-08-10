@@ -4,8 +4,9 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon server.js"
-  },
+  "dev": "nodemon server.js",
+  "create-admin": "node createadmin.js"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",

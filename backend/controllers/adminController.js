@@ -1,35 +1,39 @@
-// Example adminController.js
-
+// controllers/adminController.js
 import Admin from "../models/Admin.js";
 import User from "../models/User.js";
-import Order from "../models/Order.js"; // <-- Add this import
+import Order from "../models/Order.js";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
-// Register admin
+// 🔐 Generate JWT
+const generateToken = (adminId) => {
+  return jwt.sign({ adminId }, process.env.JWT_SECRET, { expiresIn: "7d" });
+};
+
+// 📝 Register Admin
 export const registerAdmin = async (req, res) => {
   const { name, email, password } = req.body;
+
   try {
-    const adminExist = await Admin.findOne({ email });
-    if (adminExist) {
+    const existingAdmin = await Admin.findOne({ email });
+    if (existingAdmin) {
       return res.status(400).json({ message: "Admin already exists" });
     }
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const newAdmin = await Admin.create({ name, email, password: hashedPassword });
 
-    const token = jwt.sign({ adminId: newAdmin._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
-
-    res.status(201).json({ token, admin: newAdmin });
+    const token = generateToken(newAdmin._id);
+    res.status(201).json({ token, admin: { id: newAdmin._id, name, email } });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// Login admin
+// 🔐 Login Admin
 export const loginAdmin = async (req, res) => {
   const { email, password } = req.body;
+
   try {
     const admin = await Admin.findOne({ email });
     if (!admin) return res.status(404).json({ message: "Admin not found" });
@@ -37,17 +41,14 @@ export const loginAdmin = async (req, res) => {
     const isMatch = await bcrypt.compare(password, admin.password);
     if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
 
-    const token = jwt.sign({ adminId: admin._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
-
-    res.status(200).json({ token, admin });
+    const token = generateToken(admin._id);
+    res.status(200).json({ token, admin: { id: admin._id, name: admin.name, email: admin.email } });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// Get all users
+// 👥 Get All Users
 export const getAllUsers = async (req, res) => {
   try {
     const users = await User.find().select("-password");
@@ -57,31 +58,31 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
-// Delete user
+// 🗑️ Delete User
 export const deleteUser = async (req, res) => {
   try {
     const deleted = await User.findByIdAndDelete(req.params.id);
     if (!deleted) return res.status(404).json({ message: "User not found" });
-    res.status(200).json({ message: "User deleted" });
+
+    res.status(200).json({ message: "User deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// Update user
+// ✏️ Update User
 export const updateUser = async (req, res) => {
   try {
-    const updated = await User.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
+    const updated = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!updated) return res.status(404).json({ message: "User not found" });
+
     res.status(200).json(updated);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-/// Get all orders with user info
+// 📦 Get All Orders with User Info
 export const getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find().populate("userId", "name email");
