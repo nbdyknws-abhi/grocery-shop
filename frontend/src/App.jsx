@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import CombinedSignup from "./pages/CombinedSignUp"; // ✅ changed
+import CombinedSignup from "./pages/CombinedSignup"; // ✅ changed
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import OrderForm from "./pages/OrderForm";
